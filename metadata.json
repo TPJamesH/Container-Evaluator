@@ -1,0 +1,7 @@
+{
+  "name": "ContainerAI Inspector",
+  "description": "Automated IICL-aligned container inspection MVP with AI defect detection and review workflow.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
