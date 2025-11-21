@@ -68,6 +68,12 @@ export const TRANSLATIONS = {
       FRONT_EXT: "Front Wall",
       ROOF_EXT: "Roof",
       UNDER_EXT: "Floor/Underside",
+      REAR_EXT: "Front Wall",
+      REAR_INT: "Inside Front Wall",
+      LEFT_EXT: "Side Wall 1 (Left)",
+      LEFT_INT: "Inside Side Wall 1",
+      RIGHT_EXT: "Side Wall 2 (Right)",
+      RIGHT_INT: "Inside Side Wall 2",
       
       DOOR_INT: "Inside Door Wall",
       SIDE_1_INT: "Inside Side Wall 1",
@@ -164,6 +170,13 @@ export const TRANSLATIONS = {
       FRONT_EXT: "Vách trước",
       ROOF_EXT: "Nóc",
       UNDER_EXT: "Gầm sàn",
+
+       REAR_EXT: "Vách trước",
+      REAR_INT: "Vách trước (Trong)",
+      LEFT_EXT: "Vách dọc 1 (Trái)",
+      LEFT_INT: "Vách dọc 1 (Trong)",
+      RIGHT_EXT: "Vách dọc 2 (Phải)",
+      RIGHT_INT: "Vách dọc 2 (Trong)",
       
       DOOR_INT: "Vách cửa (Trong)",
       SIDE_1_INT: "Vách dọc 1 (Trong)",
