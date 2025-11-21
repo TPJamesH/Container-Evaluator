@@ -1,4 +1,4 @@
-import { DefectCode, Severity, UserRole } from './types';
+import { DefectCode, Severity, UserRole, PricingRule } from './types';
 
 export const DEFECT_COLORS = {
   [DefectCode.DT]: 'border-yellow-500 bg-yellow-500/20 text-yellow-700', // Dent
@@ -32,3 +32,34 @@ export const MOCK_USERS = [
   { id: 'u2', name: 'Jane Smith', role: UserRole.REVIEWER },
   { id: 'u3', name: 'Admin User', role: UserRole.ADMIN },
 ];
+
+export const DEFAULT_LABOR_RATE = 45; // USD per hour
+export const TAX_RATE = 0.10; // 10%
+
+// Mock pricing rules generator
+export const generateDefaultPricingRules = (): PricingRule[] => {
+  const rules: PricingRule[] = [];
+  Object.values(DefectCode).forEach(code => {
+    [Severity.LOW, Severity.MEDIUM, Severity.HIGH].forEach(severity => {
+      let basePrice = 20;
+      let laborHours = 0.5;
+
+      if (severity === Severity.MEDIUM) { basePrice *= 2; laborHours *= 1.5; }
+      if (severity === Severity.HIGH) { basePrice *= 4; laborHours *= 2.5; }
+      
+      // Specific overrides
+      if (code === DefectCode.HO) { basePrice += 50; laborHours += 1; } // Holes are expensive
+      if (code === DefectCode.CO) { basePrice += 10; } // Rust treatment
+
+      rules.push({
+        id: `rule-${code}-${severity}`,
+        defectCode: code,
+        severity: severity,
+        basePrice,
+        laborHours,
+        description: `Standard repair for ${code} (${severity})`
+      });
+    });
+  });
+  return rules;
+};

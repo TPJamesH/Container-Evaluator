@@ -45,9 +45,8 @@ export enum ReviewStatus {
   REJECTED = 'REJECTED'
 }
 
-// Updated sides to include Interior/Exterior for walls and roof, plus ID Plate
+// Revert sides to standard, no ID_PLATE
 export type ContainerSide = 
-  | 'ID_PLATE'
   | 'FRONT_EXT' | 'FRONT_INT' 
   | 'REAR_EXT' | 'REAR_INT' 
   | 'LEFT_EXT' | 'LEFT_INT' 
@@ -64,7 +63,7 @@ export interface BoundingBox {
 
 export interface Defect {
   id: string;
-  imageId: string; // Link defect to specific image
+  imageId: string; 
   code: DefectCode;
   confidence: number;
   severity: Severity;
@@ -72,12 +71,33 @@ export interface Defect {
   boundingBox: BoundingBox;
   status: ReviewStatus;
   reviewerComment?: string;
+  // Pricing fields
+  repairCost?: number;
+  laborHours?: number;
+  partsCost?: number;
 }
 
 export interface InspectionImage {
   id: string;
   side: ContainerSide;
-  url: string; // Base64 for MVP
+  url: string; 
+}
+
+export enum QuoteStatus {
+  DRAFT = 'DRAFT',
+  PENDING_APPROVAL = 'PENDING_APPROVAL',
+  APPROVED = 'APPROVED',
+  INVOICED = 'INVOICED'
+}
+
+export interface Quote {
+  subtotal: number;
+  tax: number;
+  total: number;
+  currency: 'USD' | 'VND';
+  status: QuoteStatus;
+  generatedAt: string;
+  approvedBy?: string;
 }
 
 export interface Inspection {
@@ -91,6 +111,7 @@ export interface Inspection {
   status: 'ANALYZING' | 'REVIEW_NEEDED' | 'COMPLETED';
   overallCondition?: string;
   iiclTags?: string[];
+  quote?: Quote;
 }
 
 export interface ManifestItem {
@@ -98,6 +119,15 @@ export interface ManifestItem {
   containerNumber: string;
   status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
   addedAt: string;
+}
+
+export interface PricingRule {
+  id: string;
+  defectCode: DefectCode;
+  severity: Severity;
+  basePrice: number;
+  laborHours: number;
+  description: string;
 }
 
 export type Language = 'en' | 'vi';

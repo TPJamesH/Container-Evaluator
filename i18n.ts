@@ -8,6 +8,8 @@ export const TRANSLATIONS = {
     logout: "Logout",
     queue: "Queue",
     manifest: "Manifest",
+    pricing: "Pricing Rules",
+    pricing_settings: "Pricing Settings",
     pending_review: "Pending Review",
     completed: "Completed",
     total_inspections: "Total Inspections",
@@ -35,24 +37,27 @@ export const TRANSLATIONS = {
     login_title: "ContainerAI Inspector",
     login_subtitle: "Automated Defect Detection & Review",
     iicl_tags: "IICL Tags",
-    // Manifest
-    add_containers: "Add Containers",
-    add_to_queue: "Add to Queue",
-    clear_queue: "Clear Queue",
-    manifest_intro: "Enter container numbers separated by commas or new lines.",
-    upload_csv: "Upload CSV",
-    scan_barcode: "Scan Barcode",
-    next_container: "Next Container",
-    queue_empty: "Queue is empty.",
-    pending: "Pending",
-    in_progress: "In Progress",
+    
+    // Quote / Pricing
+    quote: "Quote",
+    estimated_cost: "Estimated Cost",
+    subtotal: "Subtotal",
+    tax: "Tax (10%)",
+    total: "Total",
+    approve_quote: "Approve Quote",
+    quote_approved: "Quote Approved",
+    labor: "Labor",
+    parts: "Parts",
+    hours: "hrs",
+    save_changes: "Save Changes",
+    base_price: "Base Price (Parts)",
+    labor_hours: "Labor Hours",
     // OCR
     scan_id: "Scan ID",
     scanning: "Scanning...",
     id_not_found: "ID not found",
     
     sides: {
-      ID_PLATE: "ID Plate / Data",
       FRONT_EXT: "Front (Ext)",
       FRONT_INT: "Front (Int)",
       REAR_EXT: "Rear (Ext)",
@@ -66,7 +71,8 @@ export const TRANSLATIONS = {
       FLOOR: "Floor",
       DOOR: "Door(s)"
     },
-    defects: {
+    // ... existing defect codes ...
+     defects: {
       B: "Data Plate (B)",
       DT: "Dent (DT)",
       BW: "Bulge/Bow (BW)",
@@ -94,6 +100,8 @@ export const TRANSLATIONS = {
     logout: "Đăng xuất",
     queue: "Hàng đợi",
     manifest: "Manifest",
+    pricing: "Bảng giá",
+    pricing_settings: "Cài đặt giá",
     pending_review: "Chờ duyệt",
     completed: "Hoàn tất",
     total_inspections: "Tổng số kiểm tra",
@@ -121,24 +129,27 @@ export const TRANSLATIONS = {
     login_title: "ContainerAI Inspector",
     login_subtitle: "Tự động phát hiện lỗi & Quy trình duyệt",
     iicl_tags: "Thẻ IICL",
-    // Manifest
-    add_containers: "Thêm Container",
-    add_to_queue: "Thêm vào hàng đợi",
-    clear_queue: "Xóa hàng đợi",
-    manifest_intro: "Nhập số container ngăn cách bằng dấu phẩy hoặc xuống dòng.",
-    upload_csv: "Tải lên CSV",
-    scan_barcode: "Quét mã vạch",
-    next_container: "Container Tiếp Theo",
-    queue_empty: "Hàng đợi trống.",
-    pending: "Chờ xử lý",
-    in_progress: "Đang xử lý",
+    
+    // Quote / Pricing
+    quote: "Báo giá",
+    estimated_cost: "Chi phí dự kiến",
+    subtotal: "Tạm tính",
+    tax: "Thuế (10%)",
+    total: "Tổng cộng",
+    approve_quote: "Duyệt báo giá",
+    quote_approved: "Đã duyệt",
+    labor: "Nhân công",
+    parts: "Vật tư",
+    hours: "giờ",
+    save_changes: "Lưu thay đổi",
+    base_price: "Giá vật tư",
+    labor_hours: "Giờ công",
     // OCR
     scan_id: "Quét số Cont",
     scanning: "Đang quét...",
     id_not_found: "Không tìm thấy số",
-    
+
     sides: {
-      ID_PLATE: "Bảng ID / Thông số",
       FRONT_EXT: "Mặt trước (Ngoài)",
       FRONT_INT: "Mặt trước (Trong)",
       REAR_EXT: "Mặt sau (Ngoài)",
@@ -152,6 +163,7 @@ export const TRANSLATIONS = {
       FLOOR: "Sàn",
       DOOR: "Cửa"
     },
+    // ... existing defects ...
     defects: {
       B: "Bảng thông số (B)",
       DT: "Móp (DT)",

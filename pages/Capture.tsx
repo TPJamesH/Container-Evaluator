@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Camera, Loader2, ArrowRight, Plus, X } from 'lucide-react';
 import { analyzeImage, readContainerNumber } from '../services/geminiService';
 import { saveInspection } from '../services/dbService';
+import { applyPricingToInspection } from '../services/pricingService';
 import { Inspection, User, ContainerSide, InspectionImage, Defect, Language } from '../types';
 import { t, tSide } from '../i18n';
 
@@ -13,13 +14,13 @@ interface CaptureProps {
 }
 
 const REQUIRED_SIDES: ContainerSide[] = [
-    'ID_PLATE',
+    'DOOR', // Placed first as it likely has the ID
     'FRONT_EXT', 'FRONT_INT', 
     'REAR_EXT', 'REAR_INT', 
     'LEFT_EXT', 'LEFT_INT', 
     'RIGHT_EXT', 'RIGHT_INT', 
     'ROOF_EXT', 'ROOF_INT', 
-    'FLOOR', 'DOOR'
+    'FLOOR'
 ];
 
 export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initialContainerNumber }) => {
@@ -44,8 +45,10 @@ export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initia
         const base64 = reader.result as string;
         setImages(prev => ({ ...prev, [side]: base64 }));
 
-        // Auto-OCR if uploading ID Plate and no container number is set
-        if (side === 'ID_PLATE' && !initialContainerNumber) {
+        // Auto-OCR if uploading DOOR. 
+        // We check !initialContainerNumber to avoid overwriting a queued item ID.
+        // We removed !containerNum to allow overwriting manual input if the OCR is confident.
+        if (side === 'DOOR' && !initialContainerNumber) {
              setIsScanning(true);
              try {
                  const result = await readContainerNumber(base64);
@@ -96,11 +99,8 @@ export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initia
               url: base64
           });
 
-          // Skip analysis for ID plate, just store it
-          if (side !== 'ID_PLATE') {
-            const defects = await analyzeImage(base64, containerNum, imageId, side);
-            allDefects.push(...defects);
-          }
+          const defects = await analyzeImage(base64, containerNum, imageId, side);
+          allDefects.push(...defects);
           
           completedImages++;
           setProgress((completedImages / totalImages) * 100);
@@ -113,7 +113,7 @@ export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initia
       const iiclTags = uniqueCodes.length > 0 ? uniqueCodes : ['IICL'];
 
       // Create Inspection Object
-      const newInspection: Inspection = {
+      let newInspection: Inspection = {
         id: `insp-${Date.now()}`,
         containerNumber: containerNum.toUpperCase(),
         timestamp: new Date().toISOString(),
@@ -125,6 +125,9 @@ export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initia
         overallCondition: allDefects.length > 0 ? 'DAMAGED' : 'SOUND',
         iiclTags: iiclTags
       };
+
+      // Apply Pricing Rules automatically
+      newInspection = applyPricingToInspection(newInspection);
 
       saveInspection(newInspection);
       onComplete(newInspection.id, newInspection.containerNumber);
@@ -157,8 +160,9 @@ export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initia
                     onChange={(e) => setContainerNum(e.target.value.toUpperCase())}
                 />
                 {isScanning && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center space-x-2 bg-white pl-2">
+                        <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+                        <span className="text-xs text-blue-600 font-medium">{t(lang, 'scanning')}</span>
                     </div>
                 )}
             </div>
@@ -187,8 +191,8 @@ export const Capture: React.FC<CaptureProps> = ({ user, onComplete, lang, initia
                             </>
                         ) : (
                             <label className="cursor-pointer w-full h-full flex flex-col items-center justify-center p-2">
-                                <Camera className={`w-8 h-8 mb-2 ${side === 'ID_PLATE' ? 'text-blue-500' : 'text-slate-400'}`} />
-                                <span className={`text-xs font-medium text-center break-words w-full ${side === 'ID_PLATE' ? 'text-blue-600' : 'text-slate-600'}`}>{tSide(lang, side)}</span>
+                                <Camera className={`w-8 h-8 mb-2 ${side === 'DOOR' ? 'text-blue-500' : 'text-slate-400'}`} />
+                                <span className="text-xs font-medium text-slate-600 text-center break-words w-full">{tSide(lang, side)}</span>
                                 <span className="text-[10px] text-slate-400 mt-1 text-center">+ {t(lang, 'upload_photo')}</span>
                                 <input 
                                     type="file" 

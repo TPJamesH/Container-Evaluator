@@ -5,6 +5,7 @@ import { Capture } from './pages/Capture';
 import { Review } from './pages/Review';
 import { History } from './pages/History';
 import { Manifest } from './pages/Manifest';
+import { Pricing } from './pages/Pricing';
 import { User, UserRole, Language } from './types';
 import { MOCK_USERS } from './constants';
 import { t } from './i18n';
@@ -93,9 +94,10 @@ export function App() {
                 <button onClick={() => handleLogin(UserRole.REVIEWER)} className="w-full bg-white border border-slate-300 text-slate-700 py-3 rounded-lg font-semibold hover:bg-slate-50 transition-colors">
                     {t(lang, 'login_reviewer')}
                 </button>
+                <button onClick={() => handleLogin(UserRole.ADMIN)} className="w-full bg-blue-50 border border-blue-200 text-blue-700 py-3 rounded-lg font-semibold hover:bg-blue-100 transition-colors">Login as Admin</button>
             </div>
             <div className="mt-6 text-xs text-slate-400">
-                MVP Build v0.3 | Powered by Gemini 2.5
+                MVP Build v0.4 | Powered by Gemini 2.5
             </div>
         </div>
       </div>
@@ -116,6 +118,7 @@ export function App() {
       <main>
         {currentPage === 'dashboard' && <Dashboard lang={lang} />}
         {currentPage === 'manifest' && <Manifest onStartInspection={handleStartFromManifest} lang={lang} />}
+        {currentPage === 'pricing' && <Pricing lang={lang} />}
         {currentPage === 'new-inspection' && (
             <Capture 
                 user={user} 

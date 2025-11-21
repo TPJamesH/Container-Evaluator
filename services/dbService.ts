@@ -1,7 +1,9 @@
-import { Inspection, Defect, ReviewStatus, DefectCode, Severity, ManifestItem } from '../types';
+import { Inspection, Defect, ReviewStatus, DefectCode, Severity, ManifestItem, PricingRule } from '../types';
+import { generateDefaultPricingRules } from '../constants';
 
-const STORAGE_KEY = 'container_inspections_db_v2'; // Version bump for new schema
+const STORAGE_KEY = 'container_inspections_db_v3'; 
 const MANIFEST_KEY = 'container_manifest_v1';
+const PRICING_KEY = 'container_pricing_rules_v1';
 
 // Initialize DB if empty
 const init = () => {
@@ -10,6 +12,9 @@ const init = () => {
   }
   if (!localStorage.getItem(MANIFEST_KEY)) {
     localStorage.setItem(MANIFEST_KEY, JSON.stringify([]));
+  }
+  if (!localStorage.getItem(PRICING_KEY)) {
+    localStorage.setItem(PRICING_KEY, JSON.stringify(generateDefaultPricingRules()));
   }
 };
 
@@ -30,13 +35,21 @@ export const saveInspection = (inspection: Inspection): void => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 };
 
+export const updateInspection = (inspection: Inspection): void => {
+    const list = getInspections();
+    const idx = list.findIndex(i => i.id === inspection.id);
+    if (idx !== -1) {
+        list[idx] = inspection;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+};
+
 export const updateInspectionDefects = (inspectionId: string, updatedDefects: Defect[]): void => {
   const list = getInspections();
   const idx = list.findIndex(i => i.id === inspectionId);
   if (idx !== -1) {
     list[idx].defects = updatedDefects;
     
-    // Auto-update status if all reviewed
     const allReviewed = updatedDefects.every(d => d.status !== ReviewStatus.PENDING);
     if (allReviewed) {
       list[idx].status = 'COMPLETED';
@@ -86,7 +99,18 @@ export const getNextPendingManifestItem = (): ManifestItem | undefined => {
     return list.find(i => i.status === 'PENDING');
 };
 
-// Generate mock stats for dashboard
+// Pricing Rules
+export const getPricingRules = (): PricingRule[] => {
+    init();
+    const data = localStorage.getItem(PRICING_KEY);
+    return data ? JSON.parse(data) : [];
+};
+
+export const savePricingRules = (rules: PricingRule[]) => {
+    localStorage.setItem(PRICING_KEY, JSON.stringify(rules));
+};
+
+// Stats
 export const getDashboardStats = () => {
   const list = getInspections();
   const total = list.length;

@@ -13,6 +13,7 @@ export const analyzeImage = async (
   side: string
 ): Promise<Defect[]> => {
   
+
   if (!process.env.API_KEY) {
     console.error("API Key missing");
     throw new Error("API Key missing");
