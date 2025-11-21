@@ -62,6 +62,7 @@ export const TRANSLATIONS = {
     
     sides: {
       DOOR_EXT: "Door Wall (Ext)",
+      DOOR: "Door Wall (Ext)",
       SIDE_1_EXT: "Side Wall 1 (Left)",
       SIDE_2_EXT: "Side Wall 2 (Right)",
       FRONT_EXT: "Front Wall",
@@ -157,6 +158,7 @@ export const TRANSLATIONS = {
 
     sides: {
       DOOR_EXT: "Vách cửa (Ngoài)",
+      DOOR: "Vách cửa (Ngoài)",
       SIDE_1_EXT: "Vách dọc 1 (Trái)",
       SIDE_2_EXT: "Vách dọc 2 (Phải)",
       FRONT_EXT: "Vách trước",
