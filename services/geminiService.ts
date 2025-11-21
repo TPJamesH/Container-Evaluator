@@ -18,7 +18,7 @@ export const analyzeImage = async (
     throw new Error("API Key missing");
   }
 
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.API_KEY });
 
   const prompt = `
     You are an expert IICL certified shipping container inspector.
