@@ -52,6 +52,7 @@ export const TRANSLATIONS = {
     id_not_found: "ID not found",
     
     sides: {
+      ID_PLATE: "ID Plate / Data",
       FRONT_EXT: "Front (Ext)",
       FRONT_INT: "Front (Int)",
       REAR_EXT: "Rear (Ext)",
@@ -137,6 +138,7 @@ export const TRANSLATIONS = {
     id_not_found: "Không tìm thấy số",
     
     sides: {
+      ID_PLATE: "Bảng ID / Thông số",
       FRONT_EXT: "Mặt trước (Ngoài)",
       FRONT_INT: "Mặt trước (Trong)",
       REAR_EXT: "Mặt sau (Ngoài)",

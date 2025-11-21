@@ -45,8 +45,9 @@ export enum ReviewStatus {
   REJECTED = 'REJECTED'
 }
 
-// Updated sides to include Interior/Exterior for walls and roof
+// Updated sides to include Interior/Exterior for walls and roof, plus ID Plate
 export type ContainerSide = 
+  | 'ID_PLATE'
   | 'FRONT_EXT' | 'FRONT_INT' 
   | 'REAR_EXT' | 'REAR_INT' 
   | 'LEFT_EXT' | 'LEFT_INT' 
